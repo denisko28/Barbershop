@@ -12,6 +12,8 @@ namespace Barbershop.DAL.Context
 
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<AppointmentService> AppointmentServices { get; set; }
+
         public DbSet<Service> Services { get; set; }
 
         public DbSet<AppointmentStatus> Status { get; set; }
@@ -24,6 +26,7 @@ namespace Barbershop.DAL.Context
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new BarberConfiguration());
             modelBuilder.ApplyConfiguration(new AppointmentStatusConfiguration());
+            modelBuilder.ApplyConfiguration(new AppointmentServiceConfiguration());
             modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
         }

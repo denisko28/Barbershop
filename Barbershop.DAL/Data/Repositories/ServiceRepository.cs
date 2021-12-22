@@ -14,8 +14,9 @@ namespace Barbershop.DAL.Data.Repositories
     {
         public override async Task<Service> GetCompleteEntityAsync(int id)
         {
-            var project = await table.Include(service => service.Appointments)
-                                     .SingleOrDefaultAsync(service => service.Id == id);
+            var project = await table.Include(service => service.AppointmentServices)
+                                     .ThenInclude(appServ => appServ.Appointment)
+                                     .FirstAsync(service => service.Id == id);
 
             return project ?? throw new EntityNotFoundException(GetEntityNotFoundErrorMessage(id));
         }
@@ -85,15 +86,15 @@ namespace Barbershop.DAL.Data.Repositories
 
         public async Task<List<Appointment>> GetAppointmentsAsync(int id)
         {
-            var service = await table.Include(service => service.Appointments)
-                                  .SingleOrDefaultAsync(service => service.Id == id);
+            var service = (await GetCompleteEntityAsync(id));
 
             if (service is null)
             {
                 throw new EntityNotFoundException(GetEntityNotFoundErrorMessage(id));
             }
 
-            return service?.Appointments;
+            return service?.AppointmentServices
+                          .Select(appServ => appServ.Appointment).ToList();
         }
 
         public ServiceRepository(BarbershopDB databaseContext) : base(databaseContext)

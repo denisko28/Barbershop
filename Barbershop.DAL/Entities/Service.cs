@@ -13,6 +13,6 @@ namespace Barbershop.DAL.Entities
 
         public bool Enabled { get; set; }
 
-        public List<Appointment> Appointments { get; set; } = new List<Appointment>(); 
+        public List<AppointmentService> AppointmentServices { get; set; } = new List<AppointmentService>(); 
     }
 }

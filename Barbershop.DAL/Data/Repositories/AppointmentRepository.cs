@@ -17,8 +17,9 @@ namespace Barbershop.DAL.Data.Repositories
         {
             var project = await table.Include(appointment => appointment.Barber)
                                      .Include(appointment => appointment.Customer)
-                                     .Include(appointment => appointment.Services)
-                                     .SingleOrDefaultAsync(appointment => appointment.Id == id);
+                                     .Include(appointment => appointment.AppointmentServices)
+                                     .ThenInclude(appServ => appServ.Service)
+                                     .FirstAsync(appointment => appointment.Id == id);
 
             return project ?? throw new EntityNotFoundException(GetEntityNotFoundErrorMessage(id));
         }
@@ -131,28 +132,27 @@ namespace Barbershop.DAL.Data.Repositories
 
         public async Task AddServicesAsync(int id, List<Service> services)
         {
-            var appointment = await table.Include(appointment => appointment.Services)
-                                  .SingleOrDefaultAsync(appointment => appointment.Id == id);
+            var appointment = await GetCompleteEntityAsync(id);
 
             if (appointment is null)
             {
                 throw new EntityNotFoundException(GetEntityNotFoundErrorMessage(id));
             }
 
-            appointment?.Services?.AddRange(services);
+            appointment?.AppointmentServices.AddRange(services.Select(service => new AppointmentService { AppointmentId = id, Service = service }));
         }
 
         public async Task<List<Service>> GetServicesAsync(int id)
         {
-            var appointment = await table.Include(appointment => appointment.Services)
-                                  .SingleOrDefaultAsync(appointment => appointment.Id == id);
+            var appointment = await GetCompleteEntityAsync(id);
 
             if (appointment is null)
             {
                 throw new EntityNotFoundException(GetEntityNotFoundErrorMessage(id));
             }
 
-            return appointment?.Services;
+            return appointment?.AppointmentServices
+                              .Select(appServ => appServ.Service).ToList();
         }
 
         public AppointmentRepository(BarbershopDB databaseContext)

@@ -41,17 +41,19 @@ namespace TestConsole
             foreach (Service service1 in services)
                 Console.WriteLine(service1.Name);
 
-            services = new List<Service> { await ServiceRepo.GetCompleteEntityAsync(2), await ServiceRepo.GetCompleteEntityAsync(6) };
+            services = new List<Service> { await ServiceRepo.GetCompleteEntityAsync(2), await ServiceRepo.GetCompleteEntityAsync(5) };
             await AppointmentRepo.AddServicesAsync(4, services);
 
-            //db.SaveChanges();
+            services = await AppointmentRepo.GetServicesAsync(4);
 
-            Service servi = await ServiceRepo.GetCompleteEntityAsync(4);
+            db.SaveChanges();
 
-            List<Appointment> apps = await ServiceRepo.GetAppointmentsAsync(4);
+            //Service servi = await ServiceRepo.GetCompleteEntityAsync(3);
+
+            List<Appointment> apps = await ServiceRepo.GetAppointmentsAsync(5);
             Console.Write("\nServices from appoint #4: \n");
             foreach (Appointment app in apps)
-                Console.WriteLine(app.Barber.Id);
+                Console.WriteLine(app.Id);
 
 
             //services = await repo.GetAsync(new ServiceParams() { Discount = 3 });

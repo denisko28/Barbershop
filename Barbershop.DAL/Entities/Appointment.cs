@@ -25,6 +25,6 @@ namespace Barbershop.DAL.Entities
 
         public Invoice Invoice { get; set; }
 
-        public List<Service> Services { get; set; } = new List<Service>();
+        public List<AppointmentService> AppointmentServices { get; set; } = new List<AppointmentService>();
     }
 }
