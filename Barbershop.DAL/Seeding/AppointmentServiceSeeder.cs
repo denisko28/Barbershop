@@ -24,15 +24,15 @@ namespace Barbershop.DAL.Seeding
                 AppointmentId = 3, ServiceId = 8
             },
 
-            //new AppointmentService
-            //{
-            //    AppointmentId = 4, ServiceId = 2
-            //},
+            new AppointmentService
+            {
+                AppointmentId = 4, ServiceId = 2
+            },
 
-            //new AppointmentService
-            //{
-            //    AppointmentId = 4, ServiceId = 6
-            //},
+            new AppointmentService
+            {
+                AppointmentId = 4, ServiceId = 6
+            },
 
             new AppointmentService
             {
