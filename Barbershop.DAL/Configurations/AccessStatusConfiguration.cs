@@ -16,7 +16,7 @@ namespace Barbershop.DAL.Configurations
             builder.Property(status => status.Meaning)
                    .HasMaxLength(80);
 
-            //new AccessSeeder().Seed(builder);
+            new AccessStatusSeeder().Seed(builder);
         }
     }
 }

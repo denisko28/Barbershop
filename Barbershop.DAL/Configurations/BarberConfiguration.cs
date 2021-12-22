@@ -42,7 +42,7 @@ namespace Barbershop.DAL.Configurations
                    .HasMaxLength(60);
 
             builder.Property(barber => barber.PassportSeries)
-                   .HasMaxLength(8);
+                   .HasMaxLength(9);
 
             builder.Property(barber => barber.PassportNumber)
                    .HasMaxLength(15);
@@ -50,7 +50,7 @@ namespace Barbershop.DAL.Configurations
             builder.Property(barber => barber.BirthDate)
                    .HasColumnType("date");
 
-            //new BarberSeeder().Seed(builder);
+            new BarberSeeder().Seed(builder);
         }
     }
 }

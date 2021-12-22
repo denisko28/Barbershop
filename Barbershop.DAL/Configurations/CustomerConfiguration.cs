@@ -38,7 +38,7 @@ namespace Barbershop.DAL.Configurations
                    .HasMaxLength(20)
                    .IsRequired();
 
-            //new CustomerSeeder().Seed(builder);
+            new CustomerSeeder().Seed(builder);
         }
     }
 }

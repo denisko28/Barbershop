@@ -31,11 +31,14 @@ namespace Barbershop.DAL.Configurations
                    .OnDelete(DeleteBehavior.ClientCascade)
                    .HasConstraintName("FK_Appointments_StatusId");
 
-            builder.HasOne(appointment => appointment.Invoice)
-                   .WithOne(invoice => invoice.Appointment)
-                   .HasForeignKey<Appointment>(appointment => appointment.InvoiceId)
-                   .OnDelete(DeleteBehavior.Cascade)
-                   .HasConstraintName("FK_Appointment_InvoiceId");
+            builder.HasMany(appointment => appointment.Services)
+                   .WithMany(service => service.Appointments)
+                   .UsingEntity(entity =>
+                   {
+                       entity.ToTable("AppointmentsServices");
+                       entity.Property("AppointmentsId").HasColumnName("AppointmentId");
+                       entity.Property("ServicesId").HasColumnName("ServiceId");
+                   });
 
             builder.Property(appointment => appointment.AppointmentDate)
                    .HasColumnType("date")
@@ -53,7 +56,7 @@ namespace Barbershop.DAL.Configurations
                    .HasColumnType("date")
                    .IsRequired();
 
-            //new AppointmentSeeder().Seed(builder);
+            new AppointmentSeeder().Seed(builder);
         }
     }
 }

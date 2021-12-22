@@ -11,7 +11,15 @@ namespace Barbershop.DAL.Seeding
         {
             new AccessStatus
             {
-
+                Id = 1, Meaning = "Відкрито"
+            },
+            new AccessStatus
+            {
+                Id = 2, Meaning = "Призупинено"
+            },
+            new AccessStatus
+            {
+                Id = 3, Meaning = "Закрито"
             }
         };
 

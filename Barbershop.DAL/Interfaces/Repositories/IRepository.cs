@@ -1,23 +1,20 @@
-﻿using System.Linq;
-using System.Threading;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Barbershop.DAL.Interfaces.Repositories
 {
-    public interface IRepository<T> where T : class, IEntity, new()
+    public interface IRepository<TEntity> where TEntity : class
     {
-        IQueryable<T> Items { get; }
+        Task<IEnumerable<TEntity>> GetAsync();
 
-        T Get(int id);
-        Task<T> GetAsync(int id, CancellationToken Cancel = default);
+        Task<TEntity> GetByIdAsync(int id);
 
-        T Add(T item);
-        Task<T> AddAsync(T item, CancellationToken Cancel = default);
+        Task<TEntity> GetCompleteEntityAsync(int id);
 
-        void Update(T item);
-        Task UpdateAsync(T item, CancellationToken Cancel = default);
+        Task InsertAsync(TEntity entity);
 
-        void Remove(int id);
-        Task RemoveAsync(int id, CancellationToken Cancel = default);
+        Task UpdateAsync(TEntity entity);
+
+        Task DeleteAsync(int id);
     }
 }

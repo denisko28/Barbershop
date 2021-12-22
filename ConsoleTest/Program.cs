@@ -2,12 +2,14 @@
 using Barbershop.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Barbershop.DAL.Entities;
+using Barbershop.DAL.Data.Repositories;
+using Barbershop.DAL.Parameters;
 
 namespace TestConsole
 {
     class Program
     {
-        static void Main(string[] args)
+         static async Task Main(string[] args)
         {
             const string connection = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Barbershop.db;Integrated Security=True";
             using BarbershopDB db = new BarbershopDB(new DbContextOptionsBuilder<BarbershopDB>().UseSqlServer(connection).Options);
@@ -15,12 +17,47 @@ namespace TestConsole
             //db.Database.EnsureDeleted();
             //db.Database.EnsureCreated();
 
-            //Service serv = new Service {Id = 1, Name = "Кроп", Price = 250, Discount = 0, Duration = 2, Appointments = new List<Appointment>() };
-            //db.Services.Add(serv);
+            ServiceRepository ServiceRepo = new ServiceRepository(db);
+            AppointmentRepository AppointmentRepo = new AppointmentRepository(db);
+            BarberRepository barberRepository = new BarberRepository(db);
+            CustomerRepository customerRepository = new CustomerRepository(db);
+
+            //await repo.DeleteAsync(17);
+
+            //Service serv = new Service { Name = "Стрижка під насадку", Price = 200, Discount = 0, Duration = 45, Enabled = false };
+            //await ServiceRepo.InsertAsync(serv);
             //db.SaveChanges();
 
-            var ser = db.Services.ToArray();
-            Console.WriteLine(ser[0]);
+            Service service = await ServiceRepo.GetByIdAsync(2);
+            Console.WriteLine(service.Price);
+
+            List<Service> services = await ServiceRepo.GetAsync(new ServiceParams() { Enabled = false });
+            Console.Write("\nНедоступні послуги: \n");
+            foreach (Service service1 in services)
+                Console.WriteLine(service1.Name);
+
+            services = await ServiceRepo.GetAsync(new ServiceParams() { Discount = 10 });
+            Console.Write("\nЗі знижкою 10%: \n");
+            foreach (Service service1 in services)
+                Console.WriteLine(service1.Name);
+
+            services = new List<Service> { await ServiceRepo.GetCompleteEntityAsync(2), await ServiceRepo.GetCompleteEntityAsync(6) };
+            await AppointmentRepo.AddServicesAsync(4, services);
+
+            //db.SaveChanges();
+
+            Service servi = await ServiceRepo.GetCompleteEntityAsync(4);
+
+            List<Appointment> apps = await ServiceRepo.GetAppointmentsAsync(4);
+            Console.Write("\nServices from appoint #4: \n");
+            foreach (Appointment app in apps)
+                Console.WriteLine(app.Barber.Id);
+
+
+            //services = await repo.GetAsync(new ServiceParams() { Discount = 3 });
+
+            //foreach (Service service1 in services)
+            //    repo.UpdateAsync(service1)
 
             //var query = db.Deals
             //   .Include(d => d.Book)

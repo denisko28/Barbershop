@@ -11,8 +11,16 @@ namespace Barbershop.DAL.Seeding
         {
             new AppointmentStatus
             {
-
-            }
+                Id = 1, Meaning = "Очікується"
+            },
+            new AppointmentStatus
+            {
+                Id = 2, Meaning = "Виконано"
+            },
+            new AppointmentStatus
+            {
+                Id = 3, Meaning = "Відхилено"
+            },
         };
 
         public void Seed(EntityTypeBuilder<AppointmentStatus> builder) => builder.HasData(projects);

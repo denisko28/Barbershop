@@ -1,4 +1,6 @@
-﻿namespace Barbershop.DAL.Entities.Base
+﻿using Barbershop.DAL.Interfaces;
+
+namespace Barbershop.DAL.Entities.Base
 {
     public abstract class Person : NamedEntity
     {

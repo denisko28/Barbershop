@@ -10,15 +10,20 @@ namespace Barbershop.DAL.Configurations
         public void Configure(EntityTypeBuilder<Invoice> builder)
         {
             builder.Property(invoice => invoice.Id)
-                   .UseIdentityColumn()
                    .IsRequired();
+
+            builder.HasOne(invoice => invoice.Appointment)
+                   .WithOne(appointment => appointment.Invoice)
+                   .HasForeignKey<Invoice>(invoice => invoice.AppointmentId)
+                   .OnDelete(DeleteBehavior.ClientCascade)
+                   .HasConstraintName("FK_Invoice_AppointmentId");
 
             builder.Property(invoice => invoice.Sum)
                    .HasColumnType("decimal")
                    .HasPrecision(6, 2)
                    .IsRequired();
 
-            //new InvoiceSeeder().Seed(builder);
+            new InvoiceSeeder().Seed(builder);
         }
     }
 }

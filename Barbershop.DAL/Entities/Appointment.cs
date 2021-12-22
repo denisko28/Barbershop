@@ -23,7 +23,6 @@ namespace Barbershop.DAL.Entities
         public int StatusId { get; set; }
         public AppointmentStatus Status { get; set; }
 
-        public int InvoiceId { get; set; }
         public Invoice Invoice { get; set; }
 
         public List<Service> Services { get; set; } = new List<Service>();

@@ -23,15 +23,15 @@ namespace Barbershop.DAL.Context
             modelBuilder.ApplyConfiguration(new AccessStatusConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new BarberConfiguration());
-            modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
             modelBuilder.ApplyConfiguration(new AppointmentStatusConfiguration());
             modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
+            modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
         }
 
         public BarbershopDB(DbContextOptions<BarbershopDB> options) : base(options)
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
     }
 }
