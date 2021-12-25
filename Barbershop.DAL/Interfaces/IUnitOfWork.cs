@@ -6,6 +6,8 @@ namespace Barbershop.DAL.Interfaces
 {
     public interface IUnitOfWork
     {
+        IAccessStatusRepository AccessStatusRepository { get; set; }
+
         IAppointmentRepository AppointmentRepository { get; }
 
         IAppointmentStatusRepository AppointmentStatusRepository { get; }

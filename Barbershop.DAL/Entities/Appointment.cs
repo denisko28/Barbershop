@@ -21,6 +21,7 @@ namespace Barbershop.DAL.Entities
         public DateTime CreationDate { get; set; }
 
         public int StatusId { get; set; }
+
         public AppointmentStatus Status { get; set; }
 
         public Invoice Invoice { get; set; }

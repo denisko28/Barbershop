@@ -13,23 +13,21 @@ namespace Barbershop.DAL.Data.Repositories
 
         protected readonly DbSet<TEntity> table;
 
-        public virtual async Task<IEnumerable<TEntity>> GetAsync() => await table.ToListAsync();
+        public async Task<IEnumerable<TEntity>> GetAsync() => await table.ToListAsync();
 
-        public virtual async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
-            return await table.FindAsync(id)
-                ?? throw new EntityNotFoundException(
-                    GetEntityNotFoundErrorMessage(id));
+            return await table.FindAsync(id);
         }
 
         public abstract Task<TEntity> GetCompleteEntityAsync(int id);
 
-        public virtual async Task InsertAsync(TEntity entity) => await table.AddAsync(entity);
+        public async Task InsertAsync(TEntity entity) => await table.AddAsync(entity);
 
-        public virtual async Task UpdateAsync(TEntity entity) =>
+        public async Task UpdateAsync(TEntity entity) =>
             await Task.Run(() => table.Update(entity));
 
-        public virtual async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
             await Task.Run(() => table.Remove(entity));

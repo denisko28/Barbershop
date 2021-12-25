@@ -21,6 +21,12 @@ namespace Barbershop.DAL.Data.Repositories
             return project ?? throw new EntityNotFoundException(GetEntityNotFoundErrorMessage(id));
         }
 
+        public async Task<int> InsertAndGetIdAsync(Customer customer)
+        {
+            await InsertAsync(customer);
+            return customer.Id;
+        }
+
         public async Task<List<Customer>> GetAsync(CustomerParams parameters)
         {
             IQueryable<Customer> source = table.Include(customer => customer.AccessStatus);
@@ -82,6 +88,17 @@ namespace Barbershop.DAL.Data.Repositories
             }
 
             source = source.Where(customer => customer.AccessStatusId == accessStatus);
+        }
+
+        public bool CheckPassword(int? customerId, string password)
+        {
+            IQueryable<Customer> source = table.Where(customer => customer.Id == customerId && customer.Password == password);
+
+            if (customerId is null || string.IsNullOrWhiteSpace(password) || source.Count() == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<List<Appointment>> GetAppointmentsAsync(int id)

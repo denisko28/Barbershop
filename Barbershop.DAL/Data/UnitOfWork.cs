@@ -10,6 +10,8 @@ namespace TeamworkSystem.DataAccessLayer.Data
     {
         protected readonly BarbershopDB databaseContext;
 
+        public IAccessStatusRepository AccessStatusRepository { get; set; }
+
         public IAppointmentRepository AppointmentRepository { get; }
         
         public IAppointmentStatusRepository AppointmentStatusRepository { get; }
@@ -29,6 +31,7 @@ namespace TeamworkSystem.DataAccessLayer.Data
 
         public UnitOfWork(
             BarbershopDB databaseContext,
+            IAccessStatusRepository accessStatusRepository,
             IAppointmentRepository appointmentRepository,
             IAppointmentStatusRepository appointmentStatusRepository,
             IBarberRepository barberRepository,
@@ -38,6 +41,7 @@ namespace TeamworkSystem.DataAccessLayer.Data
             
         {
             this.databaseContext = databaseContext;
+            AccessStatusRepository = accessStatusRepository;
             AppointmentRepository = appointmentRepository;
             AppointmentStatusRepository = appointmentStatusRepository;
             BarberRepository = barberRepository;

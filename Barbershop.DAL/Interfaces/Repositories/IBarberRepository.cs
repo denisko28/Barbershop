@@ -10,5 +10,7 @@ namespace Barbershop.DAL.Interfaces.Repositories
         Task<List<Barber>> GetAsync(BarberParams parameters);
 
         Task<List<Appointment>> GetAppointmentsAsync(int id);
+
+        bool CheckPassword(int? barberId, string password);
     }
 }

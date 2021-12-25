@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Barbershop.DAL.Interfaces.Repositories
 {
-    public interface IInvoiceRepository
+    public interface IInvoiceRepository : IRepository<Invoice>
     {
         Task<List<Invoice>> GetAsync(InvoiceParams parameters);
     }

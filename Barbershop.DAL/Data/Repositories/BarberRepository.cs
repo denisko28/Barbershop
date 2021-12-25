@@ -23,7 +23,7 @@ namespace Barbershop.DAL.Data.Repositories
 
         public async Task<List<Barber>> GetAsync(BarberParams parameters)
         {
-            IQueryable<Barber> source = table.Include(barber => barber.AccessStatus);
+            IQueryable<Barber> source = table;
 
             SearchBySurname(ref source, parameters.Surname);
             SearchByName(ref source, parameters.Name);
@@ -93,6 +93,17 @@ namespace Barbershop.DAL.Data.Repositories
             }
 
             source = source.Where(barber => barber.Adress == adress);
+        }
+
+        public bool CheckPassword(int? barberId, string password)
+        {
+            IQueryable<Barber> source = table.Where(barber => barber.Id == barberId && barber.Password == password);
+
+            if (barberId is null || string.IsNullOrWhiteSpace(password) || source.Count() == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<List<Appointment>> GetAppointmentsAsync(int id)
